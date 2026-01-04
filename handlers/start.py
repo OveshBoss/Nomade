@@ -1,12 +1,11 @@
 # ============================================================
-#Group Manager Bot
+# Group Manager Bot
 # Author: LearningBotsOfficial (https://github.com/LearningBotsOfficial) 
 # Support: https://t.me/LearningBotsCommunity
 # Channel: https://t.me/learning_bots
 # YouTube: https://youtube.com/@learning_bots
 # License: Open-source (keep credits, no resale)
 # ============================================================
-
 
 from pyrogram import Client, filters
 from pyrogram.types import (
@@ -20,246 +19,182 @@ import db
 def register_handlers(app: Client):
 
 # ==========================================================
-# Start Message
+# Start Message (Small Caps & New Design)
 # ==========================================================
     async def send_start_menu(message, user):
         text = f"""
+✨ **ʜᴇʟʟᴏ {user}!** ✨
 
-   ✨ Hello {user}! ✨
-
-👋 I am Nomad 🤖 
-
-Highlights:
+👋 **ɪ ᴀᴍ ɴᴏᴍᴀᴅ 🤖** **ʜɪɢʜʟɪɢʜᴛs:**
 ─────────────────────────────
-- Smart Anti-Spam & Link Shield
-- Adaptive Lock System (URLs, Media, Language & more)
-- Modular & Scalable Protection
-- Sleek UI with Inline Controls
+- 🛡️ **sᴍᴀʀᴛ ᴀɴᴛɪ-sᴘᴀᴍ & ʟɪɴᴋ sʜɪᴇʟᴅ**
+- 🔐 **ᴀᴅᴀᴘᴛɪᴠᴇ ʟᴏᴄᴋ sʏsᴛᴇᴍ (ᴜʀʟs, ᴍᴇᴅɪᴀ)**
+- 🧩 **ᴍᴏᴅᴜʟᴀʀ & sᴄᴀʟᴀʙʟᴇ ᴘʀᴏᴛᴇᴄᴛɪᴏɴ**
+- 🎨 **sʟᴇᴇᴋ ᴜɪ ᴡɪᴛʜ ɪɴʟɪɴᴇ ᴄᴏɴᴛʀᴏʟs**
 
-» More New Features coming soon ...
+» **ᴍᴏʀᴇ ɴᴇᴡ ꜰᴇᴀᴛᴜʀᴇs ᴄᴏᴍɪɴɢ sᴏᴏɴ ...**
 """
 
         buttons = InlineKeyboardMarkup([
-            [InlineKeyboardButton("⚒️ Add to Group ⚒️", url=f"https://t.me/{BOT_USERNAME}?startgroup=true")],
+            [InlineKeyboardButton("⚒️ ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘ ⚒️", url=f"https://t.me/{BOT_USERNAME}?startgroup=true")],
             [
-                InlineKeyboardButton("⌂ Support ⌂", url=SUPPORT_GROUP),
-                InlineKeyboardButton("⌂ Update ⌂", url=UPDATE_CHANNEL),
+                InlineKeyboardButton("🏠 sᴜᴘᴘᴏʀᴛ", url=SUPPORT_GROUP),
+                InlineKeyboardButton("📢 ᴜᴘᴅᴀᴛᴇs", url=UPDATE_CHANNEL),
             ],
             [
-                InlineKeyboardButton("※ ŎŴɳēŔ ※", url=f"tg://user?id={OWNER_ID}"),
-                InlineKeyboardButton("Repo", url="https://github.com/LearningBotsOfficial/Nomade"),
-                
+                InlineKeyboardButton("👤 ᴏᴡɴᴇʀ", url=f"tg://user?id={OWNER_ID}"),
+                InlineKeyboardButton("📁 ʀᴇᴘᴏ", url="https://github.com/LearningBotsOfficial/Nomade"),
             ],
-            [InlineKeyboardButton("📚 Help Commands 📚", callback_data="help")]
+            [InlineKeyboardButton("📚 ʜᴇʟᴘ ᴄᴏᴍᴍᴀɴᴅs 📚", callback_data="help")]
         ])
 
-        # If /start command, send a new photo
         if message.text:
             await message.reply_photo(START_IMAGE, caption=text, reply_markup=buttons)
         else:
-            # If callback, edit the same message
             media = InputMediaPhoto(media=START_IMAGE, caption=text)
             await message.edit_media(media=media, reply_markup=buttons)
 
 # ==========================================================
-# Start Command
+# Start Command (With Emoji Reaction)
 # ==========================================================
     @app.on_message(filters.private & filters.command("start"))
     async def start_command(client, message):
         user = message.from_user
+        
+        # Adding Emoji Reaction (⚡)
+        try:
+            await message.react("⚡")
+        except:
+            pass
+            
         await db.add_user(user.id, user.first_name)
         await send_start_menu(message, user.first_name)
 
 # ==========================================================
-# Help Menu Message
+# Help Menu Message (Small Caps)
 # ==========================================================
     async def send_help_menu(message):
         text = """
 ╔══════════════════╗
-     Help Menu
+     **ʜᴇʟᴘ ᴍᴇɴᴜ**
 ╚══════════════════╝
 
-Choose a category below to explore commands:
+**ᴄʜᴏᴏsᴇ ᴀ ᴄᴀᴛᴇɢᴏʀʏ ʙᴇʟᴏᴡ:**
 ─────────────────────────────
 """
         buttons = InlineKeyboardMarkup([
             [
-                InlineKeyboardButton("⌂ Greetings ⌂", callback_data="greetings"),
-                InlineKeyboardButton("⌂ Locks ⌂", callback_data="locks"),
+                InlineKeyboardButton("👋 ɢʀᴇᴇᴛɪɴɢs", callback_data="greetings"),
+                InlineKeyboardButton("🔒 ʟᴏᴄᴋs", callback_data="locks"),
             ],
             [
-                InlineKeyboardButton("⌂ Moderation ⌂", callback_data="moderation")
+                InlineKeyboardButton("🛡️ ᴍᴏᴅᴇʀᴀᴛɪᴏɴ", callback_data="moderation")
             ],
-            [InlineKeyboardButton("🔙 Back", callback_data="back_to_start")]
+            [InlineKeyboardButton("🔙 ʙᴀᴄᴋ", callback_data="back_to_start")]
         ])
 
         media = InputMediaPhoto(media=START_IMAGE, caption=text)
         await message.edit_media(media=media, reply_markup=buttons)
 
 # ==========================================================
-# Help Callback_query
+# All Callbacks (Updated with Small Caps)
 # ==========================================================
     @app.on_callback_query(filters.regex("help"))
     async def help_callback(client, callback_query):
         await send_help_menu(callback_query.message)
         await callback_query.answer()
 
-# ==========================================================
-# back to start Callback_query
-# ==========================================================
     @app.on_callback_query(filters.regex("back_to_start"))
     async def back_to_start_callback(client, callback_query):
         user = callback_query.from_user.first_name
         await send_start_menu(callback_query.message, user)
         await callback_query.answer()
 
-# ==========================================================
-# Greetings Callback_query
-# ==========================================================
     @app.on_callback_query(filters.regex("greetings"))
     async def greetings_callback(client, callback_query):
         text = """
 ╔══════════════════╗
-    ⚙ Welcome System
+    **ᴡᴇʟᴄᴏᴍᴇ sʏsᴛᴇᴍ**
 ╚══════════════════╝
 
-Commands to Manage Welcome Messages:
+**ᴄᴏᴍᴍᴀɴᴅs:**
+- `/setwelcome <text>` : **sᴇᴛ ᴄᴜsᴛᴏᴍ ᴍsɢ**
+- `/welcome on` : **ᴇɴᴀʙʟᴇ**
+- `/welcome off` : **ᴅɪsᴀʙʟᴇ**
 
-- /setwelcome <text> : Set a custom welcome message for your group
-- /welcome on        : Enable the welcome messages
-- /welcome off       : Disable the welcome messages
-
-Supported Placeholders:
-- {username} : Telegram username
-- {first_name} : User's first name
-- {id} : User ID
-- {mention} : Mention user in message
-
-Example:
- /setwelcome Hello {first_name}! Welcome to {title}!
+**ᴘʟᴀᴄᴇʜᴏʟᴅᴇʀs:**
+`{username}`, `{first_name}`, `{id}`, `{mention}`
 """
-        buttons = InlineKeyboardMarkup([
-            [InlineKeyboardButton("🔙 Back", callback_data="help")]
-        ])
+        buttons = InlineKeyboardMarkup([[InlineKeyboardButton("🔙 ʙᴀᴄᴋ", callback_data="help")]])
         media = InputMediaPhoto(media=START_IMAGE, caption=text)
         await callback_query.message.edit_media(media=media, reply_markup=buttons)
         await callback_query.answer()
 
-# ==========================================================
-# Locks callback_query
-# ==========================================================
     @app.on_callback_query(filters.regex("locks"))
     async def locks_callback(client, callback_query):
         text = """
 ╔══════════════════╗
-     ⚙ Locks System
+     **ʟᴏᴄᴋs sʏsᴛᴇᴍ**
 ╚══════════════════╝
 
-Commands to Manage Locks:
+**ᴄᴏᴍᴍᴀɴᴅs:**
+- `/lock <type>` : **ᴇɴᴀʙʟᴇ ʟᴏᴄᴋ**
+- `/unlock <type>` : **ᴅɪsᴀʙʟᴇ ʟᴏᴄᴋ**
 
-- /lock <type>    : Enable a lock for the group
-- /unlock <type>  : Disable a lock for the group
-- /locks          : Show currently active locks
-
-Available Lock Types:
-- url       : Block links
-- sticker   : Block stickers
-- media     : Block photos/videos/gifs
-- username  : Block messages with @username mentions
-- language  : Block non-English messages
-
-Example:
- /lock url       : Blocks any messages containing links
- /unlock sticker : Allows stickers again
+**ᴛʏᴘᴇs:**
+`url`, `sticker`, `media`, `username`, `language`
 """
-        buttons = InlineKeyboardMarkup([
-            [InlineKeyboardButton("🔙 Back", callback_data="help")]
-        ])
+        buttons = InlineKeyboardMarkup([[InlineKeyboardButton("🔙 ʙᴀᴄᴋ", callback_data="help")]])
         media = InputMediaPhoto(media=START_IMAGE, caption=text)
         await callback_query.message.edit_media(media=media, reply_markup=buttons)
         await callback_query.answer()
 
-# ==========================================================
-# Moderation Callback_query
-# ==========================================================
     @app.on_callback_query(filters.regex("moderation"))
     async def info_callback(client, callback_query):
         try:
             text = """
 ╔══════════════════╗
-      ⚙️ Moderation System
+      **ᴍᴏᴅᴇʀᴀᴛɪᴏɴ**
 ╚══════════════════╝
 
-Manage your group easily with these tools:
-
-¤ /kick <user> — Remove a user  
-¤ /ban <user> — Ban permanently  
-¤ /unban <user> — Lift ban  
-¤ /mute <user> — Disable messages  
-¤ /unmute <user> — Allow messages again  
-¤ /warn <user> — Add warning (3 = mute)  
-¤ /warns <user> — View warnings  
-¤ /resetwarns <user> — Clear all warnings  
-¤ /promote <user> — make admin
-¤ /demote <user> — remove from admin  
-
-💡 Example:
-Reply to a user or type  
-<code>/ban @username</code>
-
+**ᴀᴠᴀɪʟᴀʙʟᴇ ᴛᴏᴏʟs:**
+¤ `/kick` — **ʀᴇᴍᴏᴠᴇ ᴜsᴇʀ**
+¤ `/ban` — **ʙᴀɴ ᴜsᴇʀ**
+¤ `/mute` — **sɪʟᴇɴᴄᴇ ᴜsᴇʀ**
+¤ `/warn` — **ɢɪᴠᴇ ᴡᴀʀɴɪɴɢ**
+¤ `/promote` — **ᴀᴅᴅ ᴀᴅᴍɪɴ**
+¤ `/demote` — **ʀᴇᴍᴏᴠᴇ ᴀᴅᴍɪɴ**
 """
-            buttons = InlineKeyboardMarkup([
-                [InlineKeyboardButton("🔙 Back", callback_data="help")]
-            ])
-    
+            buttons = InlineKeyboardMarkup([[InlineKeyboardButton("🔙 ʙᴀᴄᴋ", callback_data="help")]])
             media = InputMediaPhoto(media=START_IMAGE, caption=text)
             await callback_query.message.edit_media(media=media, reply_markup=buttons)
             await callback_query.answer()
-    
         except Exception as e:
-            print(f"Error in info_callback: {e}")
-            await callback_query.answer("❌ Something went wrong.", show_alert=True)
-    
+            await callback_query.answer("❌ **ᴇʀʀᴏʀ!**", show_alert=True)
 
 # ==========================================================
-# Broadcast Command
+# Broadcast & Stats
 # ==========================================================
     @app.on_message(filters.private & filters.command("broadcast"))
     async def broadcast_message(client, message):
-        if not message.reply_to_message:
-            await message.reply_text("⚠️ Please reply to a message to broadcast it.")
-            return
-
         if message.from_user.id != OWNER_ID:
-            await message.reply_text("❌ Only the bot owner can use this command.")
-            return
-
-        text_to_send = message.reply_to_message.text or message.reply_to_message.caption
-        if not text_to_send:
-            await message.reply_text("⚠️ The replied message has no text to send.")
-            return
+            return await message.reply_text("❌ **ᴏɴʟʏ ᴏᴡɴᴇʀ ᴄᴀɴ ᴜsᴇ ᴛʜɪs!**")
+        
+        if not message.reply_to_message:
+            return await message.reply_text("⚠️ **ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴍsɢ!**")
 
         users = await db.get_all_users()
-        sent, failed = 0, 0
-
-        await message.reply_text(f"Broadcasting to {len(users)} users..")
-
+        sent = 0
         for user_id in users:
             try:
-                await client.send_message(user_id, text_to_send)
+                await message.reply_to_message.copy(user_id)
                 sent += 1
-            except Exception:
-                failed += 1
+            except: pass
+        await message.reply_text(f"✅ **ʙʀᴏᴀᴅᴄᴀsᴛ ᴅᴏɴᴇ! sᴇɴᴛ ᴛᴏ {sent} ᴜsᴇʀs.**")
 
-        await message.reply_text(f"✅ Broadcast finished!\n\n Sent: {sent}\nFailed: {failed}")
-
-# ==========================================================
-# stats Command
-# ==========================================================
     @app.on_message(filters.private & filters.command("stats"))
     async def stats_command(client, message):
         if message.from_user.id != OWNER_ID:
-            return await message.reply_text("❌ Only the bot owner can use this command")
-
+            return
         users = await db.get_all_users()
-        return await message.reply_text(f"💡 Total users: {len(users)}")
+        await message.reply_text(f"📊 **ᴛᴏᴛᴀʟ ᴜsᴇʀs:** `{len(users)}`")
