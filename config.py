@@ -18,9 +18,9 @@ DB_NAME = os.getenv("DB_NAME", "Cluster0")
 
 # Owner and bot details
 OWNER_ID = int(os.getenv("OWNER_ID", 0))
-BOT_USERNAME = os.getenv("BOT_USERNAME", "NomadeHelpBot")
+BOT_USERNAME = os.getenv("BOT_USERNAME", "OnlyBossManaBot")
 
 # Links and visuals
-SUPPORT_GROUP = os.getenv("SUPPORT_GROUP", "https://t.me/LearningBotsCommunity")
-UPDATE_CHANNEL = os.getenv("UPDATE_CHANNEL", "https://t.me/Learning_Bots")
-START_IMAGE = os.getenv("START_IMAGE", "https://files.catbox.moe/j2yhce.jpg")
+SUPPORT_GROUP = os.getenv("SUPPORT_GROUP", "https://t.me/OnlyBossMoviesGroup")
+UPDATE_CHANNEL = os.getenv("UPDATE_CHANNEL", "https://t.me/OveshBossOfficial")
+START_IMAGE = os.getenv("START_IMAGE", "https://graph.org/file/4354d1e4a6830d1ee3429-7915b750adbd8f5b6c.jpg")
