@@ -25,7 +25,7 @@ def register_handlers(app: Client):
         text = f"""
 ✨ **ʜᴇʟʟᴏ {user}!** ✨
 
-👋 **ɪ ᴀᴍ ɴᴏᴍᴀᴅ 🤖** **ʜɪɢʜʟɪɢʜᴛs:**
+👋 **ɪ ᴀᴍ ʙᴏss ᴍᴀɴᴀɢᴇʀ 🤖** **ʜɪɢʜʟɪɢʜᴛs:**
 ─────────────────────────────
 - 🛡️ **sᴍᴀʀᴛ ᴀɴᴛɪ-sᴘᴀᴍ & ʟɪɴᴋ sʜɪᴇʟᴅ**
 - 🔐 **ᴀᴅᴀᴘᴛɪᴠᴇ ʟᴏᴄᴋ sʏsᴛᴇᴍ (ᴜʀʟs, ᴍᴇᴅɪᴀ)**
@@ -43,7 +43,7 @@ def register_handlers(app: Client):
             ],
             [
                 InlineKeyboardButton("👤 ᴏᴡɴᴇʀ", url=f"tg://user?id={OWNER_ID}"),
-                InlineKeyboardButton("📁 ʀᴇᴘᴏ", url="https://github.com/LearningBotsOfficial/Nomade"),
+                InlineKeyboardButton("ఌ︎ ʀᴇᴘᴏ ఌ︎", url="https://github.com/OveshBoss/Nomade"),
             ],
             [InlineKeyboardButton("📚 ʜᴇʟᴘ ᴄᴏᴍᴍᴀɴᴅs 📚", callback_data="help")]
         ])
