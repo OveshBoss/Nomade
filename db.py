@@ -1,15 +1,11 @@
 # ============================================================
-#Group Manager Bot
-# Author: LearningBotsOfficial (https://github.com/LearningBotsOfficial) 
-# Support: https://t.me/LearningBotsCommunity
-# Channel: https://t.me/learning_bots
-# YouTube: https://youtube.com/@learning_bots
-# License: Open-source (keep credits, no resale)
+# Group Manager Bot - Database Module
 # ============================================================
 
 import motor.motor_asyncio
 from config import MONGO_URI, DB_NAME
 import logging
+import sys
 
 # setup logging
 logging.basicConfig(
@@ -17,12 +13,18 @@ logging.basicConfig(
     format='[%(levelname)s] %(asctime)s - %(message)s'
 )
 
+# --- MongoDB Connection Setup ---
+if not MONGO_URI:
+    logging.critical("❌ MONGO_URI is missing in your config/environment variables!")
+    sys.exit(1)
+
 try:
     client = motor.motor_asyncio.AsyncIOMotorClient(MONGO_URI)
     db = client[DB_NAME]
-    logging.info("✅ MongoDB connected successfully!")
+    logging.info("✅ MongoDB Client Initialized")
 except Exception as e:
-    logging.error(f"❌ Failed to connect to MongoDB: {e}")
+    logging.error(f"❌ MongoDB Connection Error: {e}")
+    sys.exit(1)
 
 # ==========================================================
 # 🟢 WELCOME MESSAGE SYSTEM
@@ -94,7 +96,7 @@ async def reset_warns(chat_id: int, user_id: int):
     )
 
 # ==========================================================
-# 🧹 CLEANUP UTILS (Optional)
+# 🧹 CLEANUP UTILS
 # ==========================================================
 
 async def clear_group_data(chat_id: int):
@@ -102,10 +104,10 @@ async def clear_group_data(chat_id: int):
     await db.locks.delete_one({"chat_id": chat_id})
     await db.warns.delete_many({"chat_id": chat_id})
 
-
 # ==========================================================
 # 👤 USER SYSTEM (for broadcast)
 # ==========================================================
+
 async def add_user(user_id, first_name):
     await db.users.update_one(
         {"user_id": user_id},
@@ -117,7 +119,6 @@ async def get_all_users():
     cursor = db.users.find({}, {"_id": 0, "user_id": 1})
     users = []
     async for document in cursor:
-        # Make sure the document has 'user_id'
         if "user_id" in document:
             users.append(document["user_id"])
     return users
